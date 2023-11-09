@@ -16,8 +16,9 @@ from queue import Queue
 from tempfile import NamedTemporaryFile
 from time import sleep
 from sys import platform
-os.environ["OPENAI_API_KEY"] = "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"
-openai.api_key = "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"
+
+openai.api_key = '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'
+
 def get_gpt4_response(phrase):
     response = openai.ChatCompletion.create(
         model="gpt-4",
@@ -31,8 +32,7 @@ def text_to_audio(text, filename):
     tt = Mimic3ServerTTSPlugin()
     tt.get_tts(text, filename, voice="en_US/hifi-tts_low#92")
 
-def main():
-    # Create ArgumentParser object to handle script arguments
+def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="medium", help="Model to use",
                         choices=["tiny", "base", "small", "medium", "large"])
@@ -50,8 +50,13 @@ def main():
                             help="Default microphone name for SpeechRecognition. "
                                  "Run this with 'list' to view available Microphones.", type=str)
         
-    # Parse the arguments
-    args = parser.parse_args()
+    # return the Parsed the arguments
+    return parser.parse_args()
+
+def main():
+    # Create ArgumentParser object to handle script arguments
+    parser = argparse.ArgumentParser()
+    
     
     # Initialize variables to keep track of phrase timing and audio data
     # The last time a recording was retreived from the queue.
